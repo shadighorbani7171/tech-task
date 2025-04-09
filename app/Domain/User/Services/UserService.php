@@ -12,8 +12,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * User Service
  * 
- * This service encapsulates the business logic for user management.
- * It uses Value Objects to ensure data integrity and domain rules.
+ * This service handles all user-related operations
+ * It makes sure data is valid and follows business rules
  */
 class UserService
 {
@@ -25,7 +25,8 @@ class UserService
     }
 
     /**
-     * Get all users with pagination
+     * Get list of users with pagination
+     * Default is 10 users per page
      */
     public function getAllPaginated(int $perPage = 10): LengthAwarePaginator
     {
@@ -33,7 +34,8 @@ class UserService
     }
 
     /**
-     * Find user by ID
+     * Find a user by their ID
+     * Returns null if user not found
      */
     public function findById(int $id): ?User
     {
@@ -41,9 +43,9 @@ class UserService
     }
 
     /**
-     * Create a new user with validated data
-     * 
-     * @throws \InvalidArgumentException
+     * Create a new user
+     * Checks if email is already used
+     * Validates all required fields
      */
     public function createUser(array $data): User
     {
@@ -81,8 +83,8 @@ class UserService
 
     /**
      * Update user information
-     * 
-     * @throws \InvalidArgumentException
+     * Checks if new email is already used by another user
+     * Validates all updated fields
      */
     public function updateUser(User $user, array $data): bool
     {
@@ -122,7 +124,7 @@ class UserService
     }
 
     /**
-     * Get list of valid countries
+     * Get list of all valid countries
      */
     public function getCountryList(): array
     {
@@ -130,7 +132,7 @@ class UserService
     }
 
     /**
-     * Delete a user
+     * Delete a user from the system
      */
     public function deleteUser(User $user): bool
     {

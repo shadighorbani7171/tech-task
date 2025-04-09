@@ -10,20 +10,17 @@ use Database\Factories\Domain\User\Models\UserFactory;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * User Entity - Root Aggregate
+ * User Model
  * 
- * This class represents the User aggregate root in our domain.
- * It encapsulates all user-related business rules and behaviors.
- * This class now implements JWTSubject for JWT authentication.
+ * Handles all user-related data and behavior
+ * Uses JWT for authentication
  */
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, Notifiable, HasFactory;
 
     /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * Used for creating test users
      */
     protected static function newFactory()
     {
@@ -31,8 +28,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * The attributes that are mass assignable.
-     * Following DDD principles, we explicitly define what properties can be set.
+     * Fields that can be mass assigned
      */
     protected $fillable = [
         'name',
@@ -47,8 +43,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     * Security concern: Never expose sensitive data.
+     * Sensitive fields that should be hidden
      */
     protected $hidden = [
         'password',
@@ -56,8 +51,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * The attributes that should be cast.
-     * Ensures proper data type handling.
+     * Automatic data type casting
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -65,8 +59,8 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * Validate gender value against allowed options
-     * Domain rule: Gender must be one of: male, female, other
+     * Validate gender value
+     * Only male, female, or other are allowed
      */
     public function setGenderAttribute($value)
     {
@@ -79,7 +73,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Get user's full name
-     * Domain behavior: Combining first name and surname
      */
     public function getFullNameAttribute(): string
     {
@@ -87,10 +80,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     * For JWT authentication.
-     *
-     * @return mixed
+     * Get JWT identifier
+     * Used for authentication
      */
     public function getJWTIdentifier()
     {
@@ -98,10 +89,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     * For JWT authentication.
-     *
-     * @return array
+     * Get additional data for JWT token
      */
     public function getJWTCustomClaims()
     {

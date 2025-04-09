@@ -8,38 +8,44 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * User Repository Interface
  * 
- * Following DDD principles, this interface defines the contract for user persistence operations.
- * It abstracts the persistence layer from the domain layer.
+ * Defines how we work with user data
+ * Keeps database details separate from business logic
  */
 interface UserRepositoryInterface
 {
     /**
-     * Find a user by their ID
+     * Find user by ID
+     * Returns null if not found
      */
     public function findById(int $id): ?User;
 
     /**
-     * Find a user by their email
+     * Find user by email
+     * Returns null if not found
      */
     public function findByEmail(string $email): ?User;
 
     /**
-     * Get all users with optional pagination
+     * Get all users with pagination
+     * Default is 10 users per page
      */
     public function getAllPaginated(int $perPage = 10): LengthAwarePaginator;
 
     /**
-     * Create a new user
+     * Create new user
+     * Returns the created user
      */
     public function create(array $userData): User;
 
     /**
-     * Update an existing user
+     * Update existing user
+     * Returns true if successful
      */
     public function update(User $user, array $userData): bool;
 
     /**
      * Delete a user
+     * Returns true if successful
      */
     public function delete(User $user): bool;
 } 
